@@ -1,0 +1,16 @@
+{
+  "name": "escola-app",
+  "version": "1.0.0",
+  "description": "SaaS escolar mobile-first (PWA instalável) com três perfis:",
+  "main": "sw.js",
+  "scripts": {
+    "test": "node supabase/tests/rls.test.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.2.17"
+  }
+}
