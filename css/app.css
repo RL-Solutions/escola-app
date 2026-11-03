@@ -387,3 +387,9 @@ button.prod { cursor: pointer; transition: transform .15s var(--ease), box-shado
 .kid-acts { display: flex; flex-direction: column; gap: 8px; flex: none; }
 .kid-acts .btn .ic { width: 18px; height: 18px; }
 @media (max-width: 380px) { .kid-acts { flex-direction: row; width: 100%; } .kid-acts .btn { flex: 1; } }
+
+/* Entrada de demonstração */
+.demo { gap: 12px; }
+.demo .help { margin-top: 2px; }
+.demo-contas { margin: 0 -20px -20px; border-top: 1px solid var(--line-soft); }
+.demo-contas .row .avatar .ic { width: 20px; height: 20px; }

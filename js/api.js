@@ -25,6 +25,10 @@ const api = {
     const { error } = await sb.auth.signInWithOtp({ email, options: { emailRedirectTo: location.origin + location.pathname } });
     falhou(error);
   },
+  async entrarComSenha(email, password) {
+    const { error } = await sb.auth.signInWithPassword({ email, password });
+    falhou(error);
+  },
   async confirmarCodigo(email, token) {
     const { error } = await sb.auth.verifyOtp({ email, token, type: 'email' });
     falhou(error);

@@ -1,5 +1,5 @@
 // Cache simples para o app abrir offline depois da primeira visita.
-const CACHE = 'escola-app-v11';
+const CACHE = 'escola-app-v12';
 const FILES = ['./', 'index.html', 'css/app.css', 'js/config.js', 'js/data.js', 'js/api.js', 'js/app.js', 'manifest.json', 'assets/marca/logo.png', 'assets/marca/selo.png', 'assets/marca/faixa.png'];
 
 self.addEventListener('install', e => {

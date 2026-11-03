@@ -100,5 +100,6 @@ npx supabase start
 - A grade horária é visível para qualquer membro da escola.
 - Notificação push ainda não existe (o mural atualiza em tempo real com o app aberto).
 - Cobrança/planos por escola ainda não existem.
+- **Demonstração aberta:** com `demo` no [js/config.js](js/config.js), a tela de entrada mostra botões que entram sem e-mail nas contas de exemplo (senha pública). Qualquer visitante pode alterar os dados da escola de demonstração como secretaria; remova o bloco `demo` numa instalação real.
 - A loja é só vitrine de preços: o pedido e o pagamento são feitos na secretaria.
 - A carteirinha (PDF no tamanho de cartão, 85,6 x 54 mm) é gerada no aparelho. As fotos ficam no bucket privado `fotos` do Storage; só o admin envia, e só o admin, o aluno e os responsáveis dele veem. Ela não tem QR code nem validação on-line.

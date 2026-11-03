@@ -23,6 +23,7 @@ const nomeTurma = id => byId(db.turmas, id)?.nome ?? 'Turma removida';
 const corTurma = id => `--tc: var(--t${(db.turmas.findIndex(t => t.id === id) % 4 + 4) % 4 + 1})`;
 const turmaChip = (id, sm) => `<span class="chip static ${sm ? 'sm' : ''}" style="${corTurma(id)}">${esc(nomeTurma(id))}</span>`;
 const MARCA = ESCOLA_CONFIG.marca || {};
+const DEMO = ESCOLA_CONFIG.demo?.contas?.length ? ESCOLA_CONFIG.demo : null;
 const plural = (n, um, varios) => `${n} ${n === 1 ? um : varios}`;
 const dataLonga = () => { const t = new Intl.DateTimeFormat('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' }).format(new Date()); return t[0].toUpperCase() + t.slice(1); };
 // Faixa escura de marca no topo de cada tela. O primeiro bloco da tela
@@ -159,7 +160,10 @@ function viewAuth() {
   if (f === 'login') corpo = `<form class="card pad stack" data-form="email">
       <label class="field"><span>Seu e-mail</span><input name="email" type="email" required autocomplete="email" inputmode="email" value="${esc(auth.email)}" spellcheck="false" placeholder="voce@exemplo.com"></label>
       <button class="btn primary block">Receber acesso por e-mail</button>
-      <p class="help">Use o e-mail que a escola cadastrou. Não tem senha: mandamos um link (ou código) a cada acesso.</p></form>`;
+      <p class="help">Use o e-mail que a escola cadastrou. Não tem senha: mandamos um link (ou código) a cada acesso.</p></form>
+      ${DEMO ? `<section class="card pad stack demo"><div><b>Conhecer a demonstração</b><p class="help">Entre sem e-mail numa escola de exemplo, com dados fictícios.</p></div>
+        <div class="demo-contas">${DEMO.contas.map((c, i) => `<button type="button" class="row" data-act="entrarDemo" data-id="${i}"><span class="avatar sm">${icon({ Secretaria: 'home', 'Responsável': 'users', Aluno: 'user' }[c.perfil] || 'user')}</span>
+          <span class="row-main"><b>Entrar como ${c.perfil.toLowerCase()}</b><small>${esc(c.sobre)}</small></span>${icon('chev', 'muted')}</button>`).join('')}</div></section>` : ''}`;
   if (f === 'codigo') corpo = `<form class="card pad stack" data-form="codigo">
       <p>Enviamos um e-mail para <b>${esc(auth.email)}</b>. Abra o link nele, neste aparelho, ou digite o código se ele vier no e-mail.</p>
       <label class="field"><span>Código</span><input name="token" required inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6,10}" maxlength="10" class="otp"></label>
@@ -725,6 +729,11 @@ async function remover(tabela, id, msg, depois) {
 /* ---------- Ações ---------- */
 const ACT = {
   trocarEmail: () => { auth.fase = 'login'; render(); },
+  entrarDemo: async (i, el) => {
+    el.disabled = true; el.setAttribute('aria-busy', 'true');
+    try { localStorageSet('escola-app:vinculo', null); await api.entrarComSenha(DEMO.contas[i].email, DEMO.senha); await iniciar(); }
+    catch (e) { toast(e.message); el.disabled = false; el.removeAttribute('aria-busy'); }
+  },
   vinculo: v => entrar(auth.vinculos.find(x => x.id === v)).catch(e => toast(e.message)),
   trocarAcesso: () => { localStorageSet('escola-app:vinculo', null); canal?.unsubscribe(); sessao = null; auth.fase = 'escolha'; render(); },
   alternarTema: () => { const t = temaEscuro() ? 'claro' : 'escuro'; localStorageSet('escola-app:tema', t); aplicarTema(t); },
